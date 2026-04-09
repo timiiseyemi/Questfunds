@@ -154,7 +154,7 @@ export function CalculatorSection() {
                           const raw = e.target.value.replace(/,/g, "")
                           if (!isNaN(Number(raw))) setAmount(Number(raw))
                         }}
-                        className="w-full mt-2 h-14 px-4 rounded-xl border border-white/30 bg-white/40 backdrop-blur focus:ring-2 focus:ring-black outline-none text-lg font-semibold"
+                        className="w-full mt-2 h-14 px-4 rounded-xl border border-gray-300 dark:border-gray-600 bg-white/40 backdrop-blur focus:ring-2 focus:ring-black outline-none text-lg font-semibold shadow-sm"
                       />
                     </div>
 
@@ -261,7 +261,7 @@ export function CalculatorSection() {
                           const raw = e.target.value.replace(/,/g, "")
                           if (!isNaN(Number(raw))) setLoanAmount(Number(raw))
                         }}
-                        className="w-full mt-2 h-14 px-4 rounded-xl border border-white/30 bg-white/40 backdrop-blur text-lg font-semibold outline-none"
+                        className="w-full mt-2 h-14 px-4 rounded-xl border border-gray-300 dark:border-gray-600 bg-white/40 backdrop-blur text-lg font-semibold outline-none shadow-sm"
                       />
                     </div>
 
