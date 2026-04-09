@@ -36,7 +36,7 @@ export function Navbar() {
               Calculator
             </Link>
             
-            <Link href="#contact" className="text-gray-600 hover:text-black transition">
+            <Link href="https://wa.me/2348163886181?text=Hello%20I%20am%20interested%20in%20your%20loan%20or%20investment%20services" className="text-gray-600 hover:text-black transition">
               Contact
             </Link>
           </div>
@@ -78,7 +78,7 @@ export function Navbar() {
 
              
 
-              <Link href="#contact" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+              <Link href="https://wa.me/2348163886181?text=Hello%20I%20am%20interested%20in%20your%20loan%20or%20investment%20services" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
                 Contact
               </Link>
 
