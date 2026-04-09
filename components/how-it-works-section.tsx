@@ -4,12 +4,12 @@ import { UserPlus, FileCheck, Banknote } from "lucide-react"
 
 const steps = [
   {
-    icon: UserPlus,
-    number: "01",
-    title: "Set Up Your Profile",
-    description:
-      "Create your account in minutes and get verified quickly. No long forms or unnecessary steps.",
-  },
+  icon: UserPlus,
+  number: "01",
+  title: "Set Up Your Profile",
+  description:
+    "Create your account and complete verification to start using the platform. Follow the steps carefully to get started.",
+},
   {
     icon: FileCheck,
     number: "02",

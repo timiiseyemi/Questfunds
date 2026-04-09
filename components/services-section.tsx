@@ -48,7 +48,7 @@ export function ServicesSection() {
 
                 <div className="flex items-center gap-3">
                   <Clock className="w-4 h-4 text-gray-500" />
-                  <span>Approval within 24 hours</span>
+                  <span>Approval within 48 hours</span>
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -58,13 +58,13 @@ export function ServicesSection() {
 
                 <div className="flex items-center gap-3">
                   <Banknote className="w-4 h-4 text-gray-500" />
-                  <span>Up to ₦10M available</span>
+                  <span>Up to ₦100M available</span>
                 </div>
 
               </div>
 
               <Button className="w-full bg-black text-white hover:bg-black/90 rounded-full h-12 text-sm font-medium">
-                Apply for Loan
+                <a href="https://wa.me/message/HELVKXSF223SK1">Apply for Loan</a>
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
 
@@ -114,8 +114,10 @@ export function ServicesSection() {
                 variant="outline"
                 className="w-full rounded-full h-12 text-sm font-medium border border-gray-300 hover:bg-gray-100"
               >
-                Start Investing
-                <ArrowRight className="ml-2 w-4 h-4" />
+                  <a href="https://wa.me/message/HELVKXSF223SK1">
+                  Start Investing
+                  
+                </a><ArrowRight className="ml-2 w-4 h-4" />
               </Button>
 
             </CardContent>

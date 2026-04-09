@@ -15,21 +15,21 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'FinGrow - Business Loans & Investment Platform | Nigeria',
+  title: 'Vestory - Business Loans & Investment Platform | Nigeria',
   description: 'Grow your business with flexible loans or earn competitive returns on your investments. Trusted by 10,000+ Nigerians for business financing and wealth building.',
   generator: 'v0.app',
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
+        url: '/1.png',
         media: '(prefers-color-scheme: light)',
       },
       {
-        url: '/icon-dark-32x32.png',
+        url: '/1.png',
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/icon.svg',
+        url: '/3.png',
         type: 'image/svg+xml',
       },
     ],

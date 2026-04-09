@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Menu, X, TrendingUp } from "lucide-react"
+import { Menu, X } from "lucide-react"
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -12,16 +12,19 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-gray-200/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div className="flex items-center justify-between h-16">
+        {/* ✅ INCREASED NAVBAR HEIGHT */}
+        <div className="flex items-center justify-between h-20">
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-black rounded-xl flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-lg font-semibold tracking-tight">
-              QuestFunds
-            </span>
+          {/* ✅ LOGO FIXED */}
+          <Link href="/" className="flex items-center gap-0.5">
+            <img
+              src="/1.png"
+              alt="Vestory logo"
+              className="h-23 w-23 object-contain flex-shrink-0"
+            />
+            {/* <span className="text-base font-medium tracking-tight">
+              Vestory
+            </span> */}
           </Link>
 
           {/* Desktop Navigation */}
@@ -42,8 +45,8 @@ export function Navbar() {
 
           {/* CTA */}
           <div className="hidden md:block">
-            <Button className="transparent text-black hover:bg-black/90 rounded-full px-5 text-sm">
-              Get Started
+            <Button className="border border-black text-black bg-transparent hover:bg-black hover:text-white rounded-full px-5 text-sm">
+              <a href="https://wa.me/message/HELVKXSF223SK1">Get Started</a>
             </Button>
           </div>
 
@@ -83,8 +86,8 @@ export function Navbar() {
                 Contact
               </Link>
 
-              <Button className="mt-3 bg-grey text-black rounded-full w-full">
-                Get Started
+              <Button className="mt-3 border border-black text-black bg-transparent hover:bg-black hover:text-white rounded-full w-full">
+                <a href="https://wa.me/message/HELVKXSF223SK1">Get Started</a>
               </Button>
 
             </div>

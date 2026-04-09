@@ -9,7 +9,7 @@ const testimonials = [
     role: "Fashion Store Owner",
     location: "Lagos",
     content:
-      "I needed capital to expand my store, and QuestFunds made it happen faster than I expected. The process was clear, and I got funded within a day.",
+      "I needed capital to expand my store, and Vestory made it happen faster than I expected. The process was clear, and I got funded within a day.",
     rating: 5,
     avatar: "AO",
   },
@@ -46,7 +46,7 @@ export function TestimonialsSection() {
           </h2>
 
           <p className="text-lg text-gray-600 max-w-xl mx-auto">
-            See how individuals and business owners are using QuestFunds to grow their finances.
+            See how individuals and business owners are using Vestory to grow their finances.
           </p>
         </div>
 

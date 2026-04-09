@@ -76,16 +76,21 @@ export function CTASection() {
             </h2>
 
             {/* subtext */}
-            <p className="text-lg text-gray-600 max-w-xl mx-auto mb-10">
+            <p className="text-lg text-gray-600 max-w-xl mx-auto mb-6">
               Whether you need funding to grow or want to earn returns on your money, 
-              QuestFunds gives you the tools to move forward with confidence.
+              Vestory gives you the tools to move forward with confidence.
+            </p>
+
+            {/* ✅ ADDED FUNDQUEST MESSAGE */}
+            <p className="text-sm text-gray-500 max-w-xl mx-auto mb-10">
+              Powered by Fundquest investment infrastructure.
             </p>
 
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
 
               <Button className="bg-black text-white hover:bg-black/90 rounded-full px-8 h-14 text-sm font-medium">
-                Apply for Loan
+               <a href="https://wa.me/message/HELVKXSF223SK1">Apply for Loan</a>
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
 
@@ -99,7 +104,7 @@ export function CTASection() {
                 rounded-full px-8 h-14 text-sm font-medium
               "
               >
-                Start Investing
+                <a href="https://wa.me/message/HELVKXSF223SK1">Start Investing</a>
               </Button>
 
             </div>
