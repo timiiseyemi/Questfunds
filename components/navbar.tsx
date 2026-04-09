@@ -32,12 +32,10 @@ export function Navbar() {
             <Link href="#" className="text-gray-600 hover:text-black transition">
               Home
             </Link>
-            <Link href="#loans" className="text-gray-600 hover:text-black transition">
-              Loans
+            <Link href="#calculator" className="text-gray-600 hover:text-black transition">
+              Calculator
             </Link>
-            <Link href="#invest" className="text-gray-600 hover:text-black transition">
-              Invest
-            </Link>
+            
             <Link href="#contact" className="text-gray-600 hover:text-black transition">
               Contact
             </Link>
@@ -46,7 +44,7 @@ export function Navbar() {
           {/* CTA */}
           <div className="hidden md:block">
             <Button className="border border-black text-black bg-transparent hover:bg-black hover:text-white rounded-full px-5 text-sm">
-              <a href="https://https://wa.link/myraeu">Get Started</a>
+              <a href="https://wa.me/2348163886181?text=Hello%20I%20am%20interested%20in%20your%20loan%20or%20investment%20services">Get Started</a>
             </Button>
           </div>
 
@@ -74,20 +72,18 @@ export function Navbar() {
                 Home
               </Link>
 
-              <Link href="#loans" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
-                Loans
+              <Link href="#calculator" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+                Calculator
               </Link>
 
-              <Link href="#invest" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
-                Invest
-              </Link>
+             
 
               <Link href="#contact" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
                 Contact
               </Link>
 
               <Button className="mt-3 border border-black text-black bg-transparent hover:bg-black hover:text-white rounded-full w-full">
-                <a href="https://https://wa.link/myraeu">Get Started</a>
+                <a href="https://wa.me/2348163886181?text=Hello%20I%20am%20interested%20in%20your%20loan%20or%20investment%20services">Get Started</a>
               </Button>
 
             </div>

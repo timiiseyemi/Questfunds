@@ -101,7 +101,7 @@ export function CalculatorSection() {
   }
 
   return (
-    <section className="py-20 md:py-28">
+    <section id="calculator" className="py-20 md:py-28">
       <div className="max-w-6xl mx-auto px-4">
 
         {/* HEADER */}
@@ -239,7 +239,7 @@ export function CalculatorSection() {
                   </div>
 
                   <Button onClick={handleWhatsApp}>
-                    Continue on WhatsApp
+                    <a href="https://wa.me/2348163886181?text=Hello%20I%20am%20interested%20in%20your%20loan%20or%20investment%20services">Continue on WhatsApp</a>
                   </Button>
                 </motion.div>
               </div>
@@ -330,7 +330,7 @@ export function CalculatorSection() {
                     </div>
                   )}
 
-                  <Button>Apply for Loan</Button>
+                  <Button><a href="https://wa.me/2348163886181?text=Hello%20I%20am%20interested%20in%20your%20loan%20or%20investment%20services">Apply for Loan</a></Button>
 
                 </motion.div>
 

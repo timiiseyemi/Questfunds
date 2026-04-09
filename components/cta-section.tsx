@@ -90,7 +90,7 @@ export function CTASection() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
 
               <Button className="bg-black text-white hover:bg-black/90 rounded-full px-8 h-14 text-sm font-medium">
-               <a href="https://https://wa.link/myraeu">Apply for Loan</a>
+               <a href="https://wa.me/2348163886181?text=Hello%20I%20am%20interested%20in%20your%20loan%20or%20investment%20services">Apply for Loan</a>
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
 
@@ -104,7 +104,7 @@ export function CTASection() {
                 rounded-full px-8 h-14 text-sm font-medium
               "
               >
-                <a href="https://https://wa.link/myraeu">Start Investing</a>
+                <a href="https://wa.me/2348163886181?text=Hello%20I%20am%20interested%20in%20your%20loan%20or%20investment%20services">Start Investing</a>
               </Button>
 
             </div>

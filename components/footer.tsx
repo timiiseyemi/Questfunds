@@ -1,9 +1,25 @@
 "use client"
 
 import Link from "next/link"
-import { TrendingUp, Mail, Phone } from "lucide-react"
+import { usePathname } from "next/navigation"
+import { TrendingUp, Phone } from "lucide-react"
 
 export function Footer() {
+  const pathname = usePathname()
+
+  const handleCalculatorClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // If we're already on the home page, prevent the Link navigation and smooth-scroll
+    if (pathname === "/") {
+      e.preventDefault()
+      const el = document.getElementById("calculator")
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" })
+      } else {
+        // fallback to navigating to the anchor
+        window.location.href = "/#calculator"
+      }
+    }
+  }
   return (
     <footer className="bg-black text-white py-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,13 +45,11 @@ export function Footer() {
             <h4 className="text-sm font-medium mb-4 text-white/80">Explore</h4>
 
             <div className="flex flex-col gap-2 text-sm text-white/60">
-              <Link href="https://https://wa.link/myraeu" className="hover:text-white transition">
-                Business Loans
+              <Link href="/#calculator" onClick={handleCalculatorClick} className="text-gray-600 hover:text-black transition">
+                Calculator
               </Link>
-              <Link href="https://https://wa.link/myraeu" className="hover:text-white transition">
-                Investment Plans
-              </Link>
-              <Link href="https://https://wa.link/myraeu" className="hover:text-white transition">
+              
+              <Link href="https://wa.me/2348163886181?text=Hello%20I%20am%20interested%20in%20your%20loan%20or%20investment%20services" className="hover:text-white transition">
                 Contact
               </Link>
             </div>
