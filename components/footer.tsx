@@ -29,13 +29,13 @@ export function Footer() {
             <h4 className="text-sm font-medium mb-4 text-white/80">Explore</h4>
 
             <div className="flex flex-col gap-2 text-sm text-white/60">
-              <Link href="https://wa.me/message/HELVKXSF223SK1" className="hover:text-white transition">
+              <Link href="https://https://wa.link/myraeu" className="hover:text-white transition">
                 Business Loans
               </Link>
-              <Link href="https://wa.me/message/HELVKXSF223SK1" className="hover:text-white transition">
+              <Link href="https://https://wa.link/myraeu" className="hover:text-white transition">
                 Investment Plans
               </Link>
-              <Link href="https://wa.me/message/HELVKXSF223SK1" className="hover:text-white transition">
+              <Link href="https://https://wa.link/myraeu" className="hover:text-white transition">
                 Contact
               </Link>
             </div>

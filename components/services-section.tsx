@@ -64,7 +64,7 @@ export function ServicesSection() {
               </div>
 
               <Button className="w-full bg-black text-white hover:bg-black/90 rounded-full h-12 text-sm font-medium">
-                <a href="https://wa.me/message/HELVKXSF223SK1">Apply for Loan</a>
+                <a href="https://https://wa.link/myraeu">Apply for Loan</a>
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
 
@@ -114,7 +114,7 @@ export function ServicesSection() {
                 variant="outline"
                 className="w-full rounded-full h-12 text-sm font-medium border border-gray-300 hover:bg-gray-100"
               >
-                  <a href="https://wa.me/message/HELVKXSF223SK1">
+                  <a href="https://https://wa.link/myraeu">
                   Start Investing
                   
                 </a><ArrowRight className="ml-2 w-4 h-4" />

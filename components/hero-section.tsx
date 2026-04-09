@@ -47,7 +47,7 @@ export function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-4">
 
               <Button className="bg-black text-white hover:bg-black/90 rounded-full px-8 h-14 text-base font-medium">
-                <a href="https://wa.me/message/HELVKXSF223SK1">Get a Loan</a>
+                <a href="https://https://wa.link/myraeu">Get a Loan</a>
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
 
@@ -55,7 +55,7 @@ export function HeroSection() {
                 variant="outline"
                 className="rounded-full px-8 h-14 text-base font-medium border border-gray-300 hover:bg-gray-100"
               >
-                <a href="https://wa.me/message/HELVKXSF223SK1">Start Investing</a>
+                <a href="https://https://wa.link/myraeu">Start Investing</a>
                 <TrendingUp className="ml-2 w-5 h-5" />
               </Button>
 

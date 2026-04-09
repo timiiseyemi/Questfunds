@@ -46,7 +46,7 @@ export function Navbar() {
           {/* CTA */}
           <div className="hidden md:block">
             <Button className="border border-black text-black bg-transparent hover:bg-black hover:text-white rounded-full px-5 text-sm">
-              <a href="https://wa.me/message/HELVKXSF223SK1">Get Started</a>
+              <a href="https://https://wa.link/myraeu">Get Started</a>
             </Button>
           </div>
 
@@ -87,7 +87,7 @@ export function Navbar() {
               </Link>
 
               <Button className="mt-3 border border-black text-black bg-transparent hover:bg-black hover:text-white rounded-full w-full">
-                <a href="https://wa.me/message/HELVKXSF223SK1">Get Started</a>
+                <a href="https://https://wa.link/myraeu">Get Started</a>
               </Button>
 
             </div>
