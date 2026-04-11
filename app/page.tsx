@@ -4,6 +4,7 @@ import { ServicesSection } from "@/components/services-section"
 import { CalculatorSection } from "@/components/calculator-section"
 import { HowItWorksSection } from "@/components/how-it-works-section"
 import { BenefitsSection } from "@/components/benefits-section"
+import { LeadForm } from "@/components/LeadForm"
 import { TestimonialsSection } from "@/components/testimonials-section"
 import { CTASection } from "@/components/cta-section"
 import { Footer } from "@/components/footer"
@@ -18,6 +19,7 @@ export default function Home() {
       <HowItWorksSection />
       <BenefitsSection />
       <TestimonialsSection />
+      <LeadForm/>
       <CTASection />
       <Footer />
     </main>

@@ -36,7 +36,7 @@ export function Navbar() {
               Calculator
             </Link>
             
-            <Link href="https://wa.me/2348163886181?text=Hello%20I%20am%20interested%20in%20your%20loan%20or%20investment%20services" className="text-gray-600 hover:text-black transition">
+            <Link href="/#leadform" className="text-gray-600 hover:text-black transition">
               Contact
             </Link>
           </div>
@@ -65,9 +65,7 @@ export function Navbar() {
           }`}
         >
           <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-gray-200 p-4 shadow-sm">
-
             <div className="flex flex-col gap-2 text-sm">
-
               <Link href="#" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
                 Home
               </Link>
@@ -76,16 +74,13 @@ export function Navbar() {
                 Calculator
               </Link>
 
-             
-
-              <Link href="https://wa.me/2348163886181?text=Hello%20I%20am%20interested%20in%20your%20loan%20or%20investment%20services" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+              <Link href="/#leadform" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
                 Contact
               </Link>
 
               <Button className="mt-3 border border-black text-black bg-transparent hover:bg-black hover:text-white rounded-full w-full">
                 <a href="https://wa.me/2348163886181?text=Hello%20I%20am%20interested%20in%20your%20loan%20or%20investment%20services">Get Started</a>
               </Button>
-
             </div>
           </div>
         </div>
