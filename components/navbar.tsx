@@ -29,15 +29,18 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8 text-sm">
-            <Link href="#" className="text-gray-600 hover:text-black transition">
+            <Link href="/" className="text-gray-600 hover:text-black transition">
               Home
             </Link>
-            <Link href="#calculator" className="text-gray-600 hover:text-black transition">
+            <Link href="/#calculator" className="text-gray-600 hover:text-black transition">
               Calculator
             </Link>
             
             <Link href="/#leadform" className="text-gray-600 hover:text-black transition">
               Contact
+            </Link>
+            <Link href="/insights" className="text-gray-600 hover:text-black transition">
+              News
             </Link>
           </div>
 
@@ -66,16 +69,19 @@ export function Navbar() {
         >
           <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-gray-200 p-4 shadow-sm">
             <div className="flex flex-col gap-2 text-sm">
-              <Link href="#" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+              <Link href="/" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
                 Home
               </Link>
 
-              <Link href="#calculator" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+              <Link href="/#calculator" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
                 Calculator
               </Link>
 
               <Link href="/#leadform" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
                 Contact
+              </Link>
+              <Link href="/insights" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+                News
               </Link>
 
               <Button className="mt-3 border border-black text-black bg-transparent hover:bg-black hover:text-white rounded-full w-full">
