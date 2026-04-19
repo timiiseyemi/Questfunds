@@ -164,7 +164,7 @@ export default function ArticlePage() {
           height: open === index ? "auto" : 0,
           opacity: open === index ? 1 : 0,
         }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.25 }}
         className="overflow-hidden"
       >
         <div className="px-5 pb-5 text-gray-600 leading-relaxed">

@@ -42,6 +42,10 @@ export function Navbar() {
             <Link href="/insights" className="text-gray-600 hover:text-black transition">
               News
             </Link>
+             <Link href='/games/hangman' className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+                Play Hangman
+              </Link>
+
           </div>
 
           {/* CTA */}
@@ -82,6 +86,9 @@ export function Navbar() {
               </Link>
               <Link href="/insights" className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
                 News
+              </Link>
+              <Link href='/games/hangman' className="px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+                Play Hangman
               </Link>
 
               <Button className="mt-3 border border-black text-black bg-transparent hover:bg-black hover:text-white rounded-full w-full">
