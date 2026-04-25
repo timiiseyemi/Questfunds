@@ -23,16 +23,27 @@ function normalizeTitle(title: string) {
     .join(" ")
 }
 
+// 🔥 VALIDATE IMAGE
+function isValidImage(img: string | null) {
+  if (!img) return false
+
+  return (
+    !img.includes("logo") &&
+    !img.includes("default") &&
+    img.startsWith("http")
+  )
+}
+
 // 🔥 AI IMAGE GENERATOR
 async function generateImage(prompt: string) {
   try {
     const res = await openai.images.generate({
       model: "gpt-image-1",
-      prompt: `A realistic financial news image about: ${prompt}, professional, no text`,
+      prompt: `A realistic financial news image about: ${prompt}, Nigeria economy, professional, no text`,
       size: "1024x1024",
     })
 
-    return res.data[0].url
+    return res.data?.[0]?.url || null
   } catch (err) {
     console.error("IMAGE ERROR:", err)
     return null
@@ -52,9 +63,7 @@ export async function GET() {
       const normalized = normalizeTitle(item.title)
       if (!normalized) return false
 
-      if (seenTitles.has(normalized)) {
-        return false
-      }
+      if (seenTitles.has(normalized)) return false
 
       seenTitles.add(normalized)
       return true
@@ -62,7 +71,6 @@ export async function GET() {
 
     const selected = uniqueArticles.slice(0, 30)
 
-    // 🔥 LIMIT IMAGE GENERATION
     let generatedCount = 0
 
     const processed = await Promise.all(
@@ -73,30 +81,28 @@ export async function GET() {
         try {
           console.log("PROCESSING:", item.title)
 
-          // ✅ CHECK DB FIRST (PREVENT DUPLICATES + COST)
           const existingDoc = await db.collection("news").doc(id).get()
 
+          // ✅ USE EXISTING ONLY IF IMAGE IS GOOD
           if (existingDoc.exists) {
-            return existingDoc.data()
+            const data = existingDoc.data()
+
+            if (isValidImage(data?.image)) {
+              return data
+            }
           }
 
-          // 🔥 IMAGE LOGIC (FIXED)
-          let image =
-            item.image && item.image !== "null"
-              ? item.image
-              : null
+          // 🔥 IMAGE LOGIC
+          let image = isValidImage(item.image) ? item.image : null
 
-          // 🔥 GENERATE ONLY IF NEEDED + LIMITED
+          // 🔥 GENERATE ONLY IF NEEDED
           if (!image && generatedCount < 5) {
             generatedCount++
-
             console.log("GENERATING IMAGE:", item.title)
 
             const generated = await generateImage(item.title)
 
-            image =
-              generated ||
-              fallbackImages[index % fallbackImages.length]
+            if (generated) image = generated
           }
 
           // 🔥 FINAL FALLBACK
@@ -104,7 +110,7 @@ export async function GET() {
             image = fallbackImages[index % fallbackImages.length]
           }
 
-          // 🔥 AI TEXT GENERATION
+          // 🔥 AI TEXT
           let parsed: any = null
 
           try {
@@ -148,24 +154,17 @@ Return ONLY JSON:
             parsed = null
           }
 
-          // ✅ SAFE SUMMARY
           const safeSummary =
             parsed?.summary && parsed.summary.length > 100
               ? parsed.summary
               : item.description ||
                 "This financial update highlights key economic developments affecting Nigeria."
 
-          // ✅ SAFE SECTIONS
           const safeSections =
             parsed?.sections && parsed.sections.length >= 4
               ? parsed.sections
               : [
-                  {
-                    title: "Overview",
-                    content:
-                      item.description ||
-                      "This development may affect financial conditions.",
-                  },
+                  { title: "Overview", content: item.description || "" },
                   {
                     title: "Impact on Nigerians",
                     content:
@@ -197,7 +196,6 @@ Return ONLY JSON:
             createdAt: new Date().toISOString(),
           }
 
-          // ✅ SAVE
           await db.collection("news").doc(id).set(article)
 
           return article
@@ -207,19 +205,9 @@ Return ONLY JSON:
           return {
             id,
             title: item.title,
-            image:
-              fallbackImages[index % fallbackImages.length],
-            summary:
-              item.description ||
-              "Financial update affecting markets and economy.",
-            sections: [
-              {
-                title: "Quick update",
-                content:
-                  item.description ||
-                  "This development may impact financial conditions.",
-              },
-            ],
+            image: fallbackImages[index % fallbackImages.length],
+            summary: item.description || "",
+            sections: [],
             category: "General",
             content: item.description,
             sourceUrl: item.url,
@@ -238,25 +226,6 @@ Return ONLY JSON:
   } catch (error) {
     console.error("API ERROR:", error)
 
-    return Response.json([
-      {
-        id: "fallback",
-        title: "Financial update unavailable",
-        image:
-          "https://images.unsplash.com/photo-1559526324-593bc073d938",
-        summary:
-          "We’re currently unable to load financial insights.",
-        sections: [
-          {
-            title: "Notice",
-            content: "Temporary issue fetching financial news.",
-          },
-        ],
-        category: "General",
-        content: "",
-        sourceUrl: "",
-        publishedAt: new Date().toISOString(),
-      },
-    ])
+    return Response.json([])
   }
 }
