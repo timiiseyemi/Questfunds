@@ -64,8 +64,12 @@ export function NewsSection() {
     let temp = [...news]
 
     if (category !== "All") {
-      temp = temp.filter((n) => n.category === category)
-    }
+  temp = temp.filter(
+    (n) =>
+      n.category?.toLowerCase().trim() ===
+      category.toLowerCase().trim()
+  )
+}
 
     if (search) {
       temp = temp.filter((n) =>

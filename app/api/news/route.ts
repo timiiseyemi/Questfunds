@@ -4,7 +4,7 @@ import { fetchNews } from "@/lib/news"
 import { openai } from "@/lib/openai"
 import { db } from "@/lib/firebaseAdmin"
 
-// 🔥 MOVE THIS OUTSIDE (important)
+// 🔥 FALLBACK IMAGES
 const fallbackImages = [
   "https://images.unsplash.com/photo-1559526324-593bc073d938",
   "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3",
@@ -13,37 +13,98 @@ const fallbackImages = [
   "https://images.unsplash.com/photo-1549421263-5ec394a5ad1c",
 ]
 
+// 🔥 NORMALIZE TITLE
+function normalizeTitle(title: string) {
+  return title
+    ?.toLowerCase()
+    .replace(/[^\w\s]/g, "")
+    .split(" ")
+    .slice(0, 6)
+    .join(" ")
+}
+
+// 🔥 AI IMAGE GENERATOR
+async function generateImage(prompt: string) {
+  try {
+    const res = await openai.images.generate({
+      model: "gpt-image-1",
+      prompt: `A realistic financial news image about: ${prompt}, professional, no text`,
+      size: "1024x1024",
+    })
+
+    return res.data[0].url
+  } catch (err) {
+    console.error("IMAGE ERROR:", err)
+    return null
+  }
+}
+
 export async function GET() {
   try {
     const articles = await fetchNews()
 
-    console.log("ARTICLES COUNT:", articles.length)
+    console.log("RAW ARTICLES:", articles.length)
+
+    // ✅ STEP 1: INTERNAL DEDUPE
+    const seenTitles = new Set<string>()
+
+    const uniqueArticles = articles.filter((item: any) => {
+      const normalized = normalizeTitle(item.title)
+      if (!normalized) return false
+
+      if (seenTitles.has(normalized)) {
+        return false
+      }
+
+      seenTitles.add(normalized)
+      return true
+    })
+
+    const selected = uniqueArticles.slice(0, 30)
+
+    // 🔥 LIMIT IMAGE GENERATION
+    let generatedCount = 0
 
     const processed = await Promise.all(
-      articles.slice(0, 20).map(async (item: any, index: number) => {
+      selected.map(async (item: any, index: number) => {
         const rawId = item.url || index.toString()
         const id = rawId.replace(/[^a-zA-Z0-9]/g, "_")
-
-        const image =
-  item.image && item.image !== "null"
-    ? item.image
-    : `https://source.unsplash.com/600x400/?finance,${index}`
 
         try {
           console.log("PROCESSING:", item.title)
 
-          // ✅ CHECK EXISTING (SAFE VERSION)
+          // ✅ CHECK DB FIRST (PREVENT DUPLICATES + COST)
           const existingDoc = await db.collection("news").doc(id).get()
-          const existingData = existingDoc.exists
-            ? existingDoc.data()
-            : null
 
-          // ✅ ONLY USE EXISTING IF IT'S GOOD
-          if (existingData && existingData.summary?.length > 100) {
-            return existingData
+          if (existingDoc.exists) {
+            return existingDoc.data()
           }
 
-          // 🔥 AI GENERATION
+          // 🔥 IMAGE LOGIC (FIXED)
+          let image =
+            item.image && item.image !== "null"
+              ? item.image
+              : null
+
+          // 🔥 GENERATE ONLY IF NEEDED + LIMITED
+          if (!image && generatedCount < 5) {
+            generatedCount++
+
+            console.log("GENERATING IMAGE:", item.title)
+
+            const generated = await generateImage(item.title)
+
+            image =
+              generated ||
+              fallbackImages[index % fallbackImages.length]
+          }
+
+          // 🔥 FINAL FALLBACK
+          if (!image) {
+            image = fallbackImages[index % fallbackImages.length]
+          }
+
+          // 🔥 AI TEXT GENERATION
           let parsed: any = null
 
           try {
@@ -87,14 +148,14 @@ Return ONLY JSON:
             parsed = null
           }
 
-          // ✅ ALWAYS SAFE SUMMARY
+          // ✅ SAFE SUMMARY
           const safeSummary =
             parsed?.summary && parsed.summary.length > 100
               ? parsed.summary
               : item.description ||
                 "This financial update highlights key economic developments affecting Nigeria."
 
-          // ✅ ALWAYS SAFE SECTIONS
+          // ✅ SAFE SECTIONS
           const safeSections =
             parsed?.sections && parsed.sections.length >= 4
               ? parsed.sections
@@ -128,7 +189,7 @@ Return ONLY JSON:
             image,
             summary: safeSummary,
             sections: safeSections,
-            category: parsed?.category || "General",
+            category: (parsed?.category || "General").trim(),
             content: item.content || item.description,
             sourceUrl: item.url,
             publishedAt:
@@ -136,22 +197,18 @@ Return ONLY JSON:
             createdAt: new Date().toISOString(),
           }
 
-          // ✅ SAVE (NON-BLOCKING)
-          try {
-            await db.collection("news").doc(id).set(article)
-          } catch (err) {
-            console.error("FIREBASE ERROR:", err)
-          }
+          // ✅ SAVE
+          await db.collection("news").doc(id).set(article)
 
           return article
         } catch (err) {
           console.error("MAP ERROR:", err)
 
-          // ✅ HARD FALLBACK (NEVER FAIL)
           return {
             id,
             title: item.title,
-            image,
+            image:
+              fallbackImages[index % fallbackImages.length],
             summary:
               item.description ||
               "Financial update affecting markets and economy.",
@@ -173,9 +230,11 @@ Return ONLY JSON:
       })
     )
 
-    console.log("FINAL COUNT:", processed.length)
+    const clean = processed.filter(Boolean).slice(0, 20)
 
-    return Response.json(processed)
+    console.log("FINAL CLEAN COUNT:", clean.length)
+
+    return Response.json(clean)
   } catch (error) {
     console.error("API ERROR:", error)
 
@@ -186,7 +245,7 @@ Return ONLY JSON:
         image:
           "https://images.unsplash.com/photo-1559526324-593bc073d938",
         summary:
-          "We’re currently unable to load financial insights. Please try again shortly.",
+          "We’re currently unable to load financial insights.",
         sections: [
           {
             title: "Notice",
