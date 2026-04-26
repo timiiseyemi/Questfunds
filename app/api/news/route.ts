@@ -3,6 +3,7 @@ export const revalidate = 0
 import { fetchNews } from "@/lib/news"
 import { openai } from "@/lib/openai"
 import { db } from "@/lib/firebaseAdmin"
+import cloudinary from "@/lib/cloudinary"
 
 // 🔥 FALLBACK IMAGES
 const fallbackImages = [
@@ -28,13 +29,13 @@ function isValidImage(img: string | null) {
   if (!img) return false
 
   return (
+    (img.startsWith("http") || img.startsWith("data:image")) &&
     !img.includes("logo") &&
-    !img.includes("default") &&
-    img.startsWith("http")
+    !img.includes("default")
   )
 }
 
-// 🔥 AI IMAGE GENERATOR
+// 🔥 GENERATE IMAGE (BASE64)
 async function generateImage(prompt: string) {
   try {
     const res = await openai.images.generate({
@@ -43,9 +44,27 @@ async function generateImage(prompt: string) {
       size: "1024x1024",
     })
 
-    return res.data?.[0]?.url || null
+    return res.data?.[0]?.b64_json || null
   } catch (err) {
     console.error("IMAGE ERROR:", err)
+    return null
+  }
+}
+
+// 🔥 UPLOAD TO CLOUDINARY
+async function uploadToCloudinary(base64: string, id: string) {
+  try {
+    const result = await cloudinary.uploader.upload(
+      `data:image/png;base64,${base64}`,
+      {
+        public_id: `news/${id}`,
+        overwrite: true,
+      }
+    )
+
+    return result.secure_url
+  } catch (err) {
+    console.error("CLOUDINARY ERROR:", err)
     return null
   }
 }
@@ -56,7 +75,6 @@ export async function GET() {
 
     console.log("RAW ARTICLES:", articles.length)
 
-    // ✅ STEP 1: INTERNAL DEDUPE
     const seenTitles = new Set<string>()
 
     const uniqueArticles = articles.filter((item: any) => {
@@ -83,7 +101,7 @@ export async function GET() {
 
           const existingDoc = await db.collection("news").doc(id).get()
 
-          // ✅ USE EXISTING ONLY IF IMAGE IS GOOD
+          // ✅ USE EXISTING IF IMAGE IS GOOD
           if (existingDoc.exists) {
             const data = existingDoc.data()
 
@@ -95,14 +113,17 @@ export async function GET() {
           // 🔥 IMAGE LOGIC
           let image = isValidImage(item.image) ? item.image : null
 
-          // 🔥 GENERATE ONLY IF NEEDED
+          // 🔥 GENERATE + UPLOAD
           if (!image && generatedCount < 5) {
             generatedCount++
             console.log("GENERATING IMAGE:", item.title)
 
-            const generated = await generateImage(item.title)
+            const base64 = await generateImage(item.title)
 
-            if (generated) image = generated
+            if (base64) {
+              const uploaded = await uploadToCloudinary(base64, id)
+              if (uploaded) image = uploaded
+            }
           }
 
           // 🔥 FINAL FALLBACK
@@ -128,7 +149,6 @@ Title: ${item.title}
 Content: ${item.content || item.description}
 
 Return ONLY JSON:
-
 {
   "summary": "Minimum 150 words",
   "category": "Banking | Crypto | Loans | Economy | Business | Global",
@@ -151,43 +171,20 @@ Return ONLY JSON:
             parsed = JSON.parse(cleaned)
           } catch (err) {
             console.error("AI ERROR:", err)
-            parsed = null
           }
-
-          const safeSummary =
-            parsed?.summary && parsed.summary.length > 100
-              ? parsed.summary
-              : item.description ||
-                "This financial update highlights key economic developments affecting Nigeria."
-
-          const safeSections =
-            parsed?.sections && parsed.sections.length >= 4
-              ? parsed.sections
-              : [
-                  { title: "Overview", content: item.description || "" },
-                  {
-                    title: "Impact on Nigerians",
-                    content:
-                      "It may influence cost of living and financial decisions.",
-                  },
-                  {
-                    title: "Opportunities",
-                    content:
-                      "There may be opportunities depending on the situation.",
-                  },
-                  {
-                    title: "Risks",
-                    content:
-                      "There are risks depending on how things unfold.",
-                  },
-                ]
 
           const article = {
             id,
             title: item.title,
             image,
-            summary: safeSummary,
-            sections: safeSections,
+            summary:
+              parsed?.summary ||
+              item.description ||
+              "Financial update affecting Nigeria.",
+            sections:
+              parsed?.sections || [
+                { title: "Overview", content: item.description || "" },
+              ],
             category: (parsed?.category || "General").trim(),
             content: item.content || item.description,
             sourceUrl: item.url,
@@ -218,14 +215,9 @@ Return ONLY JSON:
       })
     )
 
-    const clean = processed.filter(Boolean).slice(0, 20)
-
-    console.log("FINAL CLEAN COUNT:", clean.length)
-
-    return Response.json(clean)
+    return Response.json(processed.filter(Boolean).slice(0, 20))
   } catch (error) {
     console.error("API ERROR:", error)
-
     return Response.json([])
   }
 }
