@@ -41,7 +41,7 @@ export async function GET() {
     const random =
       generated[Math.floor(Math.random() * generated.length)]
 
-    console.log("✅ Returning generated word:", random.word)
+    console.log(" Returning generated word:", random.word)
 
     return NextResponse.json(random)
 

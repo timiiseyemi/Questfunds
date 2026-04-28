@@ -29,13 +29,13 @@ function isValidImage(img: string | null) {
   if (!img) return false
 
   return (
-    (img.startsWith("http") || img.startsWith("data:image")) &&
+    img.startsWith("http") &&
     !img.includes("logo") &&
     !img.includes("default")
   )
 }
 
-// 🔥 GENERATE IMAGE (BASE64)
+// 🔥 GENERATE IMAGE
 async function generateImage(prompt: string) {
   try {
     const res = await openai.images.generate({
@@ -100,22 +100,27 @@ export async function GET() {
           console.log("PROCESSING:", item.title)
 
           const existingDoc = await db.collection("news").doc(id).get()
+          let existingData: any = null
 
-          // ✅ USE EXISTING IF IMAGE IS GOOD
           if (existingDoc.exists) {
-            const data = existingDoc.data()
+            existingData = existingDoc.data()
 
-            if (isValidImage(data?.image)) {
-              return data
+            // ✅ GOOD IMAGE → RETURN
+            if (isValidImage(existingData?.image)) {
+              return existingData
             }
+
+            // ❗ BAD IMAGE → FIX IT
+            console.log("FIXING IMAGE:", item.title)
           }
 
           // 🔥 IMAGE LOGIC
           let image = isValidImage(item.image) ? item.image : null
 
-          // 🔥 GENERATE + UPLOAD
-          if (!image && generatedCount < 5) {
+          // 🔥 GENERATE IF MISSING
+          if (!image && generatedCount < 8) {
             generatedCount++
+
             console.log("GENERATING IMAGE:", item.title)
 
             const base64 = await generateImage(item.title)
@@ -193,6 +198,7 @@ Return ONLY JSON:
             createdAt: new Date().toISOString(),
           }
 
+          // ✅ SAVE (OVERWRITES BAD DATA)
           await db.collection("news").doc(id).set(article)
 
           return article
